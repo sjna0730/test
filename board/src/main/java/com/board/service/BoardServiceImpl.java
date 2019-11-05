@@ -17,7 +17,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 게시물 목록
 	@Override
-	public List list() throws Exception {
+	public List<BoardVO> list() throws Exception {
 
 		return dao.list();
 	}
@@ -41,6 +41,11 @@ public class BoardServiceImpl implements BoardService {
 	public void modify(BoardVO vo) throws Exception {
 	  
 	 dao.modify(vo);
+	}
+	
+	// 게시물 삭제
+	public void delete(int bno) throws Exception {
+		dao.delete(bno);
 	}
 
 }

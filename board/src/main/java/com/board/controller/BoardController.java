@@ -24,7 +24,7 @@ public class BoardController {
 	// 게시물 목록
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void getList(Model model) throws Exception {
-		List list = null;
+		List<BoardVO> list = null;
 		list = service.list();
 		model.addAttribute("list", list);
 	}
@@ -70,6 +70,15 @@ public class BoardController {
 		service.modify(vo);
 		
 		return "redirect:/board/view?bno=" + vo.getBno();
+	}
+	
+	// 게시물 삭제
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public String getDelete(@RequestParam("bno") int bno) throws Exception {
+			
+		service.delete(bno);		
+
+		return "redirect:/board/list";
 	}
 		
 }
