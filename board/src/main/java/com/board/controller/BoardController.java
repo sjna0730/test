@@ -6,12 +6,15 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.board.dao.BoardDAO;
 import com.board.domain.BoardVO;
+import com.board.domain.Criteria;
+import com.board.domain.PageMaker;
 import com.board.service.BoardService;
 
 @Controller
@@ -27,6 +30,18 @@ public class BoardController {
 		List<BoardVO> list = null;
 		list = service.list();
 		model.addAttribute("list", list);
+	}
+	
+	// 게시물 페이징
+	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
+	public void listPage(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
+		List<BoardVO> list = service.listPage(cri);
+		model.addAttribute("list", list);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("pageMaker", pageMaker);
 	}
 	
 	// 게시물 작성   서버 -> 유저
